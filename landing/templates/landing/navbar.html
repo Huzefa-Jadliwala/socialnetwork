@@ -1,0 +1,119 @@
+{% load custom_tags %}
+<div class="container gx-0">
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+      <!-- checks if user is logged in then directs him to the home page of application else askshim to log in. -->
+      <a class="navbar-brand" 
+        {% if user.is_authenticated %}
+          href="{% url 'post-list' %}"
+        {% else %}
+        href="{% url 'index' %}"
+        {% endif %}
+        ><i class="fas fa-comment"></i>
+        Network X
+      </a>
+
+      <!-- link to direct to the explore tags -->
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <li>
+            <a class='inbox-icon' href="{% url 'explore' %}">
+              <i class="far fa-compass"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0"></ul>
+
+        <!-- input field for searching user profiles -->
+        <form class="d-flex" method="GET" action="{% url 'search-profile' %}">
+          {% csrf_token %}
+          <div class="input-group">
+              <span class="input-group-text" id="basic-addon1">@</span>
+              <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" name="query" value="{{ request.GET.query }}">
+              <button class="remove-default-btn" type="submit">
+                <i class="fas fa-search"></i>
+              </button>
+          </div>
+        </form>
+
+          <!-- dropdown which containes the option to go to profile and sign out -->
+          {% if user.is_authenticated %}
+            <div class="nav-item dropdown mx-2">
+              <a class="nav-link dropdown-toggle text-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><i class="fas fa-user"></i></a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'profile' request.user.profile.pk %}">Profile</a></li>
+                <li><a class="dropdown-item" href="{% url 'account_logout' %}">Sign Out</a></li>
+              </ul>
+            </div>
+
+          <!-- button to go to chatting inbox -->
+            <div class="nav-item inbox-icon-container">
+              <a href="{% url 'inbox' %}" class="inbox-item"><i class="far fa-paper-plane"></i></a>
+            </div>
+
+            <!-- button to check the notification of the logged in user -->
+            <div class="nav-item" style="margin-right: 100px;">
+              {% show_notification %}
+            </div>
+          {% endif %}
+      </div>
+    </div>
+  </nav>
+  <script>
+
+    // function to toggle on and off the notification checking button
+    function shownotification(){
+        const elemt = document.getElementById('notification-container')
+        if (elemt.classList.contains('d-none')){
+            elemt.classList.remove('d-none')
+        }
+        else{
+            elemt.classList.add('d-none')
+        }
+    }
+
+    // function to get the data and cookies of the current logged in user
+    function getCookie(name) {
+          let cookieValue = null;
+          if (document.cookie && document.cookie !== '') {
+              const cookies = document.cookie.split(';');
+              for (let i = 0; i < cookies.length; i++) {
+                  const cookie = cookies[i].trim();
+                  // Does this cookie string begin with the name we want?
+                  if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }   
+          }
+          return cookieValue;
+        }
+    
+    // function to remove the notification from the notification bar when user has already seen it by clicking on the 'X' button
+    function removeNotification(removeNotificationURL, redirectURL){
+      const csrftoken = getCookie('csrftoken')
+      let xmlhttp = new XMLHttpRequest()
+      xmlhttp.onreadystatechange = function() {
+        if(xmlhttp.readyState == XMLHttpRequest.DONE){
+          if(xmlhttp.status == 200){
+            window.location.replace(redirectURL)
+          }
+          else{
+            window.alert("Their has been an error occured!!")
+          }
+        }
+      };
+      xmlhttp.open('DELETE', removeNotificationURL, true);
+      xmlhttp.setRequestHeader('X-CSRFToken', csrftoken);
+      xmlhttp.send();
+    }
+
+
+  </script>
+</div>

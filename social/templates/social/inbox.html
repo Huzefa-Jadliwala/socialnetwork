@@ -1,0 +1,43 @@
+{% extends 'landing/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container">
+
+        <!-- link to go back to post feed -->
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-7 col-md-12 ">
+                <a href="{% url 'post-list' %}" class="btn btn-light">Back To Feed</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 p-3">
+                <h3>
+                    Your Conversation
+                </h3>
+            </div>
+        </div>
+
+        <!-- form which is used to find new user and start conversation with them -->
+        <div class="row">
+            <div class="col-md-12 p-3">
+                <form action="{% url 'create-thread' %}" method="GET">
+                    <button type="submit" class="btn btn-light p-3">
+                        Start Your Conversation
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- display all the user chats of the active user  -->
+        {% for thread in threads %}
+            <div class="row mb-3">
+                <div class="card col-mb-12 p-5 shadow-sm">
+                    <h5><i class="far fa-envelope"></i>   @{{thread.user}} - @{{thread.reciever}}</h5>
+                    <a href="{% url 'thread' thread.pk %}" class="stretched-link"></a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}

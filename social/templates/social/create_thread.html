@@ -1,0 +1,44 @@
+{% extends 'landing/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container">
+        <!-- link to go back to inbox -->
+        <div class="row">
+            <div class="col-md-12 p-5">
+                <a href="{% url 'inbox' %}" class="btn btn-light">Back to Inbox</a>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12 p-5">
+                <h3>
+                    Start a Conversation
+                </h3>
+            </div>
+        </div>
+
+        <!-- link to show the users with which the current logged in user has started the conversions -->
+        <div class="row justify-content-center my-5">
+            <div class="col-md-7 col-sm-12">
+                {% if messages %}
+                    <div class="alert alert-danger justify-content-center" role="alert">
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <form method="POST">
+                    {% csrf_token %}
+                    <p>Please enter the username of the person you want to chat!!</p>
+                    {{ form | crispy }}
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-success mt-3" type="submit">
+                            Continue
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

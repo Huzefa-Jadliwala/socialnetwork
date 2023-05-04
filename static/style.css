@@ -1,0 +1,173 @@
+.remove-default-btn {
+    box-shadow: none; 
+    border: none; 
+    background-color: transparent;
+}
+
+.edit-color{
+    color: #333;
+}
+
+.post-link{
+    text-decoration: none;
+}
+
+a{
+    color: black;
+}
+
+.post-text{
+    padding-top: 0.5rem;
+}
+
+.post-img{
+    float: left;
+    margin-right: 1rem;
+}
+
+
+.child-comment{
+    margin-right: 1rem;
+}
+
+.notification-badge{
+    transition: 0.3s;
+}
+
+.notification-badge:hover{
+    cursor: pointer;
+    transition: 0.3s;
+    opacity: 0.75;
+}
+
+.dropdown{
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content{
+    position: absolute;
+    top: 50;
+    right: 100;
+    background-color: #f1f1f1;
+    min-width: 200px;
+    box-shadow: 0px 8px 8px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    font-size: 0.9rem;
+}
+
+
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown-item-parent{
+    position: relative;
+    display: block;
+}
+
+.dropdown-item-close{
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 1.8rem;
+    padding-right: 5px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.dropdown-item-close :hover{
+    color: rgb(180, 25, 25);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.post-image{
+    max-width: 400px;
+	height: auto;
+	border-radius: 10px;
+	margin-bottom: 10px;
+}
+
+.inbox-icon-container{
+    margin-right: 15px;
+}
+
+.inbox-icon{
+    color: #333;
+    transition: 0.5s;
+}
+
+.inbox-icon:hover{
+    transition: 0.5s;
+}
+
+.empty-text{
+    color: #777;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.recieved-message{
+    background-color: #f3f3f3;
+    border-radius: 30px;
+    padding: 10px 25px;
+    width: 35%;
+}
+
+.sent-message{
+    background-color: rgb(1, 196, 255);
+    color: #fff;
+    border-radius: 30px;
+    padding: 10px 25px;
+    width: 35%;
+    float: right;
+}
+
+.message-img-sent{
+    float: right;
+    width: 35%;
+    padding: 10px 25px;
+}
+.message-img-recieve{
+    padding: 10px 25px;
+    width: 35%; 
+    float: left;
+}
+
+.message-img{
+    border-radius: 12px;
+    max-width: 250px;
+    height: auto;
+}
+
+.chatbox{
+    padding: 20px;
+    margin: 20px;
+    background-color: antiquewhite;
+    box-shadow: inset;
+    border-radius: 20px;
+}
+
+
+.main{
+    width: 100%;
+    height: 600px;
+    position: relative;
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+.slide{
+    width: 100%;
+    height: 100%;
+    transition: 1s;
+    position: absolute;
+}

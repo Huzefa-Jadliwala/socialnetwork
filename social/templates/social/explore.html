@@ -1,0 +1,106 @@
+{% extends 'landing/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container">
+
+        <!-- link to go back to post feed -->
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-7 col-sm-12 ">
+                <a href="{% url 'post-list' %}" class="btn btn-light">Back To Feed</a>
+            </div>
+        </div>
+
+        <!-- explore tags input form -->
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-7 col-sm-12 ">
+                {% if tag %}
+                    <h3>Expore #{{ tag.name }} Posts</h3>
+                    <p>Most recent posts with #{{tag.name}} are as below</p>
+                {% else %}
+                    <h3>Expore Posts</h3>
+                    <p>Explore Tags to find new posts</p>    
+                {% endif %}
+
+                <form method="GET" action="{% url 'explore' %}">
+                    {% csrf_token %}
+                    {{ exploreform | crispy }}
+                </form>
+            </div>
+        </div>
+
+        <!-- block which contains the matching tags in the posts for comment -->
+        {% for post in posts %}
+            <div class="row justify-content-center mt-3"> 
+                <div class="col-md-7 col-sm-12 border-bottom">
+                    <div>
+                        <a class="text-primary post-link" href="{% url 'profile' post.author.profile.pk %}" >
+                            <img src="{{ post.author.profile.picture.url}}" class="rounded-circle post-img" width="30" height="30" alt="Profile Picture">
+                        </a>
+                        <p class="post-text">
+                            <strong><a class="text-primary post-link" href="{% url 'profile' post.author.profile.pk %}">@{{post.author}} </a></strong>{{post.created_on}}
+                        </p>
+                    </div>
+                    <div class="position-relative">
+                        {% if post.image.count > 0 %}
+                            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                                        <li data-target="#myCarousel" data-slide-to="1"></li>
+                                        <li data-target="#myCarousel" data-slide-to="2"></li>
+                                        <li data-target="#myCarousel" data-slide-to="3"></li>
+                                        <li data-target="#myCarousel" data-slide-to="4"></li>
+                                    </ol>
+                                {% for image in post.image.all %}
+                                    <div class="carousel-item active">
+                                        <img class="d-block w-100" src="{{image.image.url}}" alt="Image of the Post">
+                                    </div>
+                                {% endfor %}
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        {% endif %}
+                        <div class="body">
+                            <p>{{post.body}}</p>
+                        </div>
+                        <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
+                    </div>
+                    <div class="d-flex flex-row">
+                        <form method="POST" action="{% url 'like-post' post.pk %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                            <button class="remove-default-btn" type="submit">
+                                <i class="far fa-thumbs-up">
+                                    <span>
+                                        {{ post.likes.all.count }}
+                                    </span>
+                                </i>
+                            </button>
+                        </form>
+                        <form method="POST" action="{% url 'dislike-post' post.pk %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                            <button class="remove-default-btn" type="submit">
+                                <i class="far fa-thumbs-down">
+                                    <span>
+                                        {{ post.dislikes.all.count }}
+                                    </span>
+                                </i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+
+    </div>
+{% endblock content %}

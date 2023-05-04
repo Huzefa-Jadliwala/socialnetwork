@@ -1,0 +1,61 @@
+{% extends 'landing/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container">
+
+        <!-- link to go back to user profile -->
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-7 col-sm-12 ">
+                <a href="{% url 'profile' profile.pk %}" class="btn btn-light">Back To Profile</a>
+            </div>
+        </div>
+
+        <!-- block to displahy the username to the logged in user -->
+        <div class="row justify-content-center mt-3">
+            {% if profile.name %}
+                <div class="col-md-7 col-sm-12 border-bottom">
+                    <h4>Followers of {{ profile.name }}: {{ followers.all.count }}</h4>
+                </div>
+            {% else %}
+                <div class="col-md-7 col-sm-12 border-bottom">
+                    <h4>Followers of {{ profile.user.username    }}: {{ followers.all.count }}</h4>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- display the list of followers -->
+        {% for follower in followers %}
+            <div class="row justify-content-center mt-3">
+                <div class="col-md-7 col-sm-12 border-bottom">
+                    <img src="{{ follower.profile.picture.url}}" class="rounded-circle" width="100" height="100" alt="Profile Picture of the Active User">
+                    {% if follower.profile.name %}
+                        <h3 class="py-4">
+                            <strong><a class="text-primary post-link" href="{% url 'profile' follower.profile.pk %}">@{{follower.profile.name}} </a></strong>
+                        </h3>
+                    {% else %}
+                        <h3 class="py-4">
+                            <strong><a class="text-primary post-link" href="{% url 'profile' follower.profile.pk %}">@{{follower.user.username}} </a></strong> 
+                        </h3>
+                    {% endif %}
+
+                    {% if follower.profile.bio %}
+                        <p>
+                            {{follower.profile.bio}}
+                        </p>
+                    {% endif %}
+                    {% if follower.profile.birthdate %}
+                        <p>
+                            {{follower.profile.birthdate}}
+                        </p>
+                    {% endif %}
+                    {% if follower.profile.location %}
+                        <p>
+                            {{follower.porfile.location}}
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}
